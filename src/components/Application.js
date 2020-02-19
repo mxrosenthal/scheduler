@@ -1,28 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "components/Application.scss";
 import DayList from "./DayList";
-
-const days = [
-  {
-    id: 1,
-    name: "Monday",
-    spots: 2,
-  },
-  {
-    id: 2,
-    name: "Tuesday",
-    spots: 5,
-  },
-  {
-    id: 3,
-    name: "Wednesday",
-    spots: 0,
-  },
-];
-
+import Appointment from './Appointment';
+import axios from 'axios';
+import getAppointmentsForDay from '../helpers/selectors.js';
 
 export default function Application(props) {
-  const [day, setDay] = useState('Monday')
+
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    appointments: {},
+    interviewers: {}
+  })
+
+  const setDay = day => setState({ ...state, day });
+  const appointments = getAppointmentsForDay(state, state.day);
+
+  const fetchDays = axios.get('/api/days');
+  const fetchAppointments = axios.get('/api/appointments');
+  const fetchInterviewers = axios.get('/api/interviewers');
+  useEffect(() => {
+    Promise.all([
+      fetchDays, fetchAppointments, fetchInterviewers
+    ]).then((all) => {
+      setState(prev => ({ days: all[0].data, appointments: all[1].data, interviewers: all[2].data }));
+    })
+  }, []);
+
+
+  const schedule = appointments.map((appointment) => {
+    const interview = getInterview(state, appointment.interview);
+
+    return (
+      <Appointment
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview}
+      />
+    );
+  });
+
+  console.log('state.interviewers: ', state.interviewers)
   return (
     <main className="layout">
       <section className="sidebar">
@@ -34,8 +54,8 @@ export default function Application(props) {
         <hr className="sidebar__separator sidebar--centered" />
         <nav className="sidebar__menu">
           <DayList
-            days={days}
-            day={day}
+            days={state.days}
+            day={state.day}
             setDay={setDay}
           />
         </nav>
@@ -45,7 +65,14 @@ export default function Application(props) {
           alt="Lighthouse Labs"
         />      </section>
       <section className="schedule">
-        {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
+        <ul>
+          {appointments.map((appointment, key) => {
+            return (
+              <Appointment key={Appointment.id} {...appointment} />
+            )
+          })}
+          <Appointment key="last" time="5pm" />
+        </ul>
       </section>
     </main>
   );
