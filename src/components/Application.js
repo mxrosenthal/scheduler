@@ -16,7 +16,6 @@ export default function Application(props) {
   })
 
   function bookInterview(id, interview) {
-    // console.log(id, interview);
     //STATE object. to apply these, we need to call setState with this new state object.
     const appointment = {
       ...state.appointments[id],
@@ -41,7 +40,23 @@ export default function Application(props) {
 
   }
 
+  const cancelInterview = function (id) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+    console.log('appointment: ', appointment)
+    console.log('appointments: ', appointments)
 
+    return axios
+      .delete(`./api/appointments/${id}`, { appointment })
+      .then(res => {
+        setState({
+          ...state, appointment
+        })
+      })
+      .catch(err => console.log(err))
+  }
 
   const setDay = day => setState({ ...state, day });
 
@@ -67,9 +82,13 @@ export default function Application(props) {
         interview={interview}
         interviewers={interviewers}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     );
   });
+
+
+
 
   // console.log('state.interviewers: ', state.interviewers)
   return (
