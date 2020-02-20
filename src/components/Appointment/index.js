@@ -1,11 +1,11 @@
 import "./styles.scss";
-import React, { Fragment } from "react";
+import React from "react";
 import Header from './Header';
 import Show from './Show';
 import Empty from './Empty';
 import Form from './Form';
 import { useVisualMode } from "hooks/useVisualMode";
-import { action } from "@storybook/addon-actions";
+// import { action } from "@storybook/addon-actions";
 
 export default function Appointment({ id, time, interview, interviewers, bookInterview }) {
   const EMPTY = "EMPTY";
@@ -25,12 +25,14 @@ export default function Appointment({ id, time, interview, interviewers, bookInt
       student: name,
       interviewer
     };
-    bookInterview(id, interviewSave)
+
+    //changing state after the axios call.
+    bookInterview(id, interviewSave).then(() => transition(SHOW));
   }
 
-  const onDelete = function () {
+  // const onDelete = function () {
 
-  }
+  // }
   const onCancel = function () {
     back();
   }

@@ -4,7 +4,7 @@ import DayList from "./DayList";
 import Appointment from './Appointment';
 import axios from 'axios';
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from '../helpers/selectors.js';
-import { useVisualMode } from '../hooks/useVisualMode';
+// import { useVisualMode } from '../hooks/useVisualMode';
 
 export default function Application(props) {
 
@@ -16,7 +16,29 @@ export default function Application(props) {
   })
 
   function bookInterview(id, interview) {
-    console.log(id, interview);
+    // console.log(id, interview);
+    //STATE object. to apply these, we need to call setState with this new state object.
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    //returns a promise so we can .then from the index and change state there.
+    return axios
+      .put(`./api/appointments/${id}`, { interview })
+      .then(res => {
+        setState({
+          ...state,
+          appointments
+        });
+      })
+      .catch(err => console.log(err))
+
   }
 
 
