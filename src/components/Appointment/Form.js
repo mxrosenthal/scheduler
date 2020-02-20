@@ -36,9 +36,6 @@ export default function Form(props) {
             placeholder="Enter Student Name"
             onChange={(event) => setName(event.target.value)}
             onSubmit={event => event.preventDefault()}
-          /*
-      This must be a controlled component
-    */
           />
         </form>
         <InterviewerList interviewers={interviewers} value={currentInterviewer} onChange={setInterviewer} />
