@@ -15,6 +15,12 @@ export default function Application(props) {
     interviewers: {}
   })
 
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+  }
+
+
+
   const setDay = day => setState({ ...state, day });
 
   const fetchDays = axios.get('/api/days');
@@ -38,6 +44,7 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={interviewers}
+        bookInterview={bookInterview}
       />
     );
   });
