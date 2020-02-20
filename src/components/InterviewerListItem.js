@@ -2,8 +2,6 @@ import React from 'react';
 import "./InterviewerListItem.scss";
 import classNames from 'classnames';
 
-// var classNames = require('classnames');
-
 
 export default function InterviewerListItem(props) {
 

@@ -34,3 +34,21 @@ export function getAppointmentsForDay(state, day) {
   return foundAppointments;
 }
 
+export function getInterviewersForDay(state, day) {
+  const daysArray = state.days;
+  const interviewers = state.interviewers;
+  let interviewerArray = [];
+  for (const dayObj of daysArray) {
+    if (dayObj.name === day) {
+      interviewerArray = dayObj.interviewers;
+    }
+  }
+
+  const foundInterviewers = [];
+  for (const item of interviewerArray) {
+    if (interviewers[item]) {
+      foundInterviewers.push(interviewers[item]);
+    }
+  }
+  return foundInterviewers;
+}

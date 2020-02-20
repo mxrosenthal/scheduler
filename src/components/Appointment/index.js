@@ -7,7 +7,7 @@ import Form from './Form';
 import { useVisualMode } from "hooks/useVisualMode";
 import { action } from "@storybook/addon-actions";
 
-export default function Appointment({ id, time, interview }) {
+export default function Appointment({ id, time, interview, interviewers }) {
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
@@ -16,11 +16,22 @@ export default function Appointment({ id, time, interview }) {
     interview ? SHOW : EMPTY
   );
 
+  const onAdd = function () {
+    transition(CREATE);
+  }
+  const onSave = function () {
 
+  }
+  const onDelete = function () {
+
+  }
+  const onCancel = function () {
+    back();
+  }
   return (
     <article className="appointment">
       <Header time={time} />
-      {mode === EMPTY && <Empty onAdd={transition(CREATE)} />}
+      {mode === EMPTY && <Empty onAdd={onAdd} />}
       {mode === SHOW && (
         <Show
           student={interview.student}
@@ -29,9 +40,9 @@ export default function Appointment({ id, time, interview }) {
       )}
       {mode === CREATE && (
         <Form
-          interviewers={[]}
+          interviewers={interviewers}
           onSave={action("onSave")}
-          onCancel={action("onCancel")}
+          onCancel={onCancel}
         />
       )}
     </article>
