@@ -27,7 +27,7 @@ npm start
 Fork and clone this repo into a second directory (not inside this project directory) https://github.com/lighthouse-labs/scheduler-api. Lighthouse Labs provides these files to build the back end which will act as our API server. 
 ```sh
 npm install
-npm run
+npm start
 ```
 It may be helpful to boot up the API server BEFORE the Webpack server. It is possible to simulate an error with the API server by booting it up with the following command. This will create a delay in the response from the API which will prevent an appointment from saving or deleting.
 ```sh

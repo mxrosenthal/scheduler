@@ -7,10 +7,7 @@ import Form from './Form';
 import Status from './Status';
 import Confirm from './Confirm';
 import Error from './Error';
-
-
 import { useVisualMode } from "hooks/useVisualMode";
-// import { action } from "@storybook/addon-actions";
 
 export default function Appointment({ id, time, interview, interviewers, bookInterview, cancelInterview }) {
   const EMPTY = "EMPTY";

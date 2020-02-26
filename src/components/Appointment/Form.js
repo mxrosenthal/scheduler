@@ -34,7 +34,6 @@ export default function Form(props) {
     }
     setError('');
     save(currentName, currentInterviewer, create)
-
   }
 
   return (
@@ -51,10 +50,8 @@ export default function Form(props) {
             onSubmit={event => event.preventDefault()}
             data-testid="student-name-input"
           />
-
         </form>
         <section className="appointment__validation">{error}</section>
-
         <InterviewerList interviewers={interviewers} value={currentInterviewer} onChange={setInterviewer} />
       </section>
       <section className="appointment__card-right">

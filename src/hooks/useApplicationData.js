@@ -15,7 +15,6 @@ export function useApplicationData() {
   }
   const [state, dispatch] = useReducer(reducer, testState);
 
-
   function bookInterview(id, interview, create) {
     //STATE object. to apply these, we need to call setState with this new state object.
     const appointment = {
@@ -28,12 +27,14 @@ export function useApplicationData() {
       [id]: appointment
     };
 
+    //updating 'spots' remaining
     let days = [...state.days];
     if (create) {
       days = state.days.map(day =>
         day.appointments.includes(id) ? { ...day, spots: day.spots - 1 } : day
       );
     }
+
     //returns a promise so we can .then from the index and change state there.
     return axios
       .put(`/api/appointments/${id}`, { interview })
@@ -52,9 +53,8 @@ export function useApplicationData() {
       [id]: appointment
     };
 
-    //updating interviews remaining
+    //updating 'spots' remaining
     let days = [...state.days];
-
     days = state.days.map(day =>
       day.appointments.includes(id) ? { ...day, spots: day.spots + 1 } : day
     );
@@ -62,11 +62,8 @@ export function useApplicationData() {
     return axios
       .delete(`/api/appointments/${id}`)
       .then(res => {
-        // console.log(days)
-        // console.log(appointments)
         dispatch({ type: SET_INTERVIEW, days, appointments })
       })
-    // .catch(err => console.log('check: ', err))
   }
 
   const setDay = day => {

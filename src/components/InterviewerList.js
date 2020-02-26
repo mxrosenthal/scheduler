@@ -4,6 +4,7 @@ import "./InterviewerList.scss"
 import PropTypes from 'prop-types'; // ES6
 
 export default function InterviewerList(props) {
+
   const { interviewers } = props;
 
   return (
