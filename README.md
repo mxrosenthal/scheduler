@@ -29,7 +29,10 @@ Fork and clone this repo into a second directory (not inside this project direct
 npm install
 npm run
 ```
-It may be helpful to boot up the API server BEFORE the Webpack server. 
+It may be helpful to boot up the API server BEFORE the Webpack server. It is possible to simulate an error with the API server by booting it up with the following command. This will create a delay in the response from the API which will prevent an appointment from saving or deleting.
+```sh
+npm run error
+```
 
 ## Running Jest Test Framework
 
