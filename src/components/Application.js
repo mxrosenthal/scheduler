@@ -6,13 +6,14 @@ import { useApplicationData } from '../hooks/useApplicationData';
 import { getAppointmentsForDay, getInterview, getInterviewersForDay } from '../helpers/selectors.js';
 
 export default function Application(props) {
+
+
   const {
     state,
     setDay,
     bookInterview,
     cancelInterview
   } = useApplicationData();
-
   const schedule = getAppointmentsForDay(state, state.day).map((appointment) => {
     return (
       <Appointment

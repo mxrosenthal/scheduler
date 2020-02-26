@@ -31,7 +31,7 @@ export default function Appointment({ id, time, interview, interviewers, bookInt
     transition(CREATE);
   }
 
-  function save(name, interviewer) {
+  function save(name, interviewer, create) {
     const interviewSave = {
       student: name,
       interviewer
@@ -40,8 +40,10 @@ export default function Appointment({ id, time, interview, interviewers, bookInt
     //show saving mode before calling bookInterview.
     transition(SAVING)
     //changing state after the axios call.
-    bookInterview(id, interviewSave)
-      .then(() => transition(SHOW))
+    bookInterview(id, interviewSave, create)
+      .then(() => {
+        transition(SHOW)
+      })
       .catch(err => {
         console.log(err)
         transition(ERROR_SAVE, true)
@@ -49,8 +51,6 @@ export default function Appointment({ id, time, interview, interviewers, bookInt
   }
 
   function onEdit() {
-    console.log(interview)
-
     transition(EDIT);
   }
 
@@ -73,7 +73,7 @@ export default function Appointment({ id, time, interview, interviewers, bookInt
     back();
   }
   return (
-    <article className="appointment">
+    <article className="appointment" data-testid="appointment">
       <Header time={time} />
       {mode === EMPTY && <Empty onAdd={onAdd} />}
       {mode === SHOW && (
@@ -90,19 +90,20 @@ export default function Appointment({ id, time, interview, interviewers, bookInt
           onSave={save}
           onDelete={onDelete}
           onCancel={onCancel}
+          create={true}
         />
       )}
       {mode === SAVING && (
         <Status message="Saving" />
       )}
       {mode === DELETE && (
-        <Status message="Deleteing" />
+        <Status message="Deleting" />
       )}
       {mode === CONFIRM && (
         <Confirm message="Delete the appointment?" onConfirm={onDelete} onCancel={onCancel} />
       )}
       {mode === EDIT && (
-        <Form name={interview.student} interviewers={interviewers} interviewer={interview.interviewer.id} onSave={save} onCancel={onCancel} />
+        <Form name={interview.student} interviewers={interviewers} interviewer={interview.interviewer.id} onSave={save} onCancel={onCancel} create={false} />
       )}
       {mode === ERROR_SAVE && (
         <Error message="Could not save appointment." onClose={onCancel} />
